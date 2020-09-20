@@ -20,8 +20,16 @@ const hbs = exphbs.create({
 app.engine(extNameHbs, hbs.engine);
 app.set('view engine', extNameHbs);
 
+// especificar que todos recursos se encuentran en public
+// siempre poner esto antes que el urlencoded
+app.use(express.static('public'));
+
 // Receive parameters from the Form requests
 app.use(express.urlencoded({ extended: true }))
+
+// agregar que acepte bodies the tipo json
+app.use(express.json());
+
 
 // Routes
 app.use('/', webRoutes);
