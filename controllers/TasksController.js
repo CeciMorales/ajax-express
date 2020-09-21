@@ -20,9 +20,15 @@ exports.store = (req, res) => {
 exports.done = (req, res) => {
   let task = {};
   task.id = (req.params.id);
-  Task.done(task.id.substring(1))
-  .then(() => {
-    res.redirect('/');
+
+  return Task.done(task.id)
+  .then((task) => {
+     // if the request is expecting an ajax or json response
+    if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      res.json({ id: task.id })
+    } else {
+      res.redirect('/');
+    }
   })
 }
 
@@ -30,8 +36,15 @@ exports.done = (req, res) => {
 exports.delete = (req, res) => {
   let task = {};
   task.id = (req.params.id);
-  Task.delete(task.id.substring(1))
+  Task.delete(task.id)
   .then(() => {
-    res.redirect('/');
-  })
+
+     // if the request is expecting an ajax or json response
+     if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+      res.json({ id: task.id })
+    } else {
+      res.redirect('/');
+    }
+
+  });
 }

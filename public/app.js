@@ -29,26 +29,25 @@ function storeTask() {
     })
 }
 
-
 function addTask(task) {
   let html =
   `
-  <div class="card my-3">
+  <div id="idCard_${task.id}" class="card my-3">
     <div class="card-body">
       <p class="card-text">${task.description}</p>
       <div class="container">
             <div class="row">
 
               <div class="col">
-                <form method="post" action="/doneTask/:${task.id}">
+                <form id="id_${task.id}" method="post" action="/doneTask/:${task.id}">
                   <input type="submit" value="Done" class="btn btn-primary" onclick="taskDone(${task})">
                 </form>
               </div>
 
               <div class="col">
               </div>
-                <form method="post" action="/deleteTask/:${task.id}">
-                  <input type="submit" value="Delete" class="btn btn-danger">
+                <form id="id_${task.id}" method="post" action="/deleteTask/:${task.id}">
+                  <input type="submit" value="Delete" class="btn btn-danger" onclick="deleteTask(${task})>
                 </form>
               </div>
 
@@ -69,10 +68,11 @@ function taskDone(id) {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ status: 'done' })
+    body: JSON.stringify({id: id})
   };
 
-  fetch(`/taskDone/:${task.id}`, payload)
+  let route = '/doneTask/'  + id;
+  fetch(route, payload)
     .then(response => {
       if (response.ok) {
         return response.json();
@@ -81,13 +81,105 @@ function taskDone(id) {
       }
     })
     .then(task => {
-      document.getElementById('task_description').value = '';
-      addTask(task);
+
+
+     let html =  `
+      <div id="idCard_${task.id}" class="card my-3">
+        <div class="card-body">
+          <p class="card-text">${task.description}</p>
+          <div class="container">
+                <div class="row">
+
+                  <div class="col">
+                    <form id="id_${task.id}" method="post" action="/doneTask/:${task.id}">
+                      <input type="submit" value="Done" class="btn btn-primary" onclick="taskDone(${task.id})">
+                    </form>
+                  </div>
+
+                  <div class="col">
+                  </div>
+                    <form id="id_${task.id}" method="post" action="/deleteTask/:${task.id}">
+                      <input type="submit" value="Delete" class="btn btn-danger" onclick="deleteTask(${task})>
+                    </form>
+                  </div>
+
+              </div>
+        </div>
+      </div>
+      `;
+
+      let id = 'id_' + task.id;
+      document.getElementById(id).innerHTML = html;
     })
     .catch(error => {
       console.log('Error: ', error);
     })
 }
+
+function editTask(task) {
+  let html =
+  `
+  <div id="idCard_${task.id}" class="card my-3">
+    <div class="card-body">
+      <p class="card-text">${task.description}</p>
+      <div class="container">
+            <div class="row">
+
+              <div class="col">
+                <form id="id_${task.id}" method="post" action="/doneTask/:${task.id}">
+                  <input type="submit" value="Done" class="btn btn-primary" onclick="taskDone(${task.id})">
+                </form>
+              </div>
+
+              <div class="col">
+              </div>
+                <form id="id_${task.id}" method="post" action="/deleteTask/:${task.id}">
+                  <input type="submit" value="Delete" class="btn btn-danger" onclick="deleteTask(${task})>
+                </form>
+              </div>
+
+          </div>
+    </div>
+  </div>
+  `;
+
+  let id = `id_${task.id}`;
+
+  document.getElementById(id).innerHTML = html;
+}
+
+function deleteTask(id) {
+  console.log('Task is deleted ajax', id);
+
+  let payload = {
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({id: id})
+  };
+
+
+  let route = '/deleteTask/' + id;
+  fetch(route, payload)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw "Error en la llamada Ajax";
+      }
+    })
+    .then(task => {
+      let idCard = `idCard_${id}`;
+      document.getElementById(idCard).remove();
+    })
+    .catch(error => {
+      console.log('Error: ', error);
+    })
+}
+
+
 
 /*
 <form action="/tasks/${task.id}/done" method="POST">

@@ -15,7 +15,7 @@
             placeholder="I have to..."
             class="form-control">
           <div class="input-group-append">
-            <input type="submit" value="Add" class="btn btn-primary" onclick="storeTask()">
+            <input type="submit" value="Add" class="btn btn-primary" onclick="storeTask();">
           </div>
         </div>
       </form>
@@ -24,23 +24,23 @@
   <div class="row">
     <div class="col-lg-12" id="task_list">
       {{#each tasks}}
-      <div class="card my-3 {{#eq status 'done' }}bg-light{{/eq}}">
+      <div id="idCard_{{id}}" class="card my-3 {{#eq status 'done' }}bg-light{{/eq}}">
         <div class="card-body">
           <p class="card-text">{{ description }}</p>
           <div class="container">
             <div class="row">
               <div class="col">
                 {{#eq status 'pending'}}
-                  <form method="post" action="/doneTask/:{{id}}">
-                    <input type="submit" value="Done" class="btn btn-primary" onclick="taskDone({{task}})">
+                  <form id="id_{{id}}" method="POST" action="/doneTask/{{id}}">
+                    <input type="submit" value="Done" class="btn btn-primary" onclick="taskDone({{id}});">
                   </form>
                 {{/eq}}
 
               </div>
               <div class="col">
               </div>
-                <form method="post" action="/deleteTask/:{{task}}">
-                  <input id=`` type="submit" value="Delete" class="btn btn-danger">
+                <form id="id_{{id}}" method="POST" action="/deleteTask/{{id}}">
+                  <input type="submit" value="Delete" class="btn btn-danger" onclick="deleteTask({{id}});">
                 </form>
               </div>
           </div>
