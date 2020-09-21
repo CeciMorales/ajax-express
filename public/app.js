@@ -71,8 +71,7 @@ function taskDone(id) {
     body: JSON.stringify({id: id})
   };
 
-  let route = '/doneTask/'  + id;
-  fetch(route, payload)
+  fetch(`/doneTask/${id}`, payload)
     .then(response => {
       if (response.ok) {
         return response.json();
@@ -161,8 +160,7 @@ function deleteTask(id) {
   };
 
 
-  let route = '/deleteTask/' + id;
-  fetch(route, payload)
+  fetch(`/deleteTask/${id}`, payload)
     .then(response => {
       if (response.ok) {
         return response.json();

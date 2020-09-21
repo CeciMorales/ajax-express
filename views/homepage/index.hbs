@@ -32,15 +32,14 @@
               <div class="col">
                 {{#eq status 'pending'}}
                   <form id="id_{{id}}" method="POST" action="/doneTask/{{id}}">
-                    <input type="submit" value="Done" class="btn btn-primary" onclick="taskDone({{id}});">
+                    <input type="submit" value="Done" class="btn btn-primary" onclick="taskDone({{id}})">
                   </form>
                 {{/eq}}
-
               </div>
               <div class="col">
               </div>
                 <form id="id_{{id}}" method="POST" action="/deleteTask/{{id}}">
-                  <input type="submit" value="Delete" class="btn btn-danger" onclick="deleteTask({{id}});">
+                  <input type="submit" value="Delete" class="btn btn-danger" onclick="deleteTask({{id}})">
                 </form>
               </div>
           </div>
